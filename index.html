@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trading Calculator</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+  }
+  .form-group {
+    margin-bottom: 10px;
+  }
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  input[type="number"], select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  button:hover {
+    background-color: #45a049;
+  }
+  .result {
+    margin-top: 20px;
+  }
+</style>
+</head>
+<body>
+
+<h2>Trading Calculator</h2>
+
+<div class="form-group">
+  <label for="position_type">Position Type:</label>
+  <select id="position_type" name="position_type">
+    <option value="LONG">LONG</option>
+    <option value="SHORT">SHORT</option>
+  </select>
+</div>
+
+<div class="form-group">
+  <label for="volume_usdt">Volume in USDT:</label>
+  <input type="number" id="volume_usdt" name="volume_usdt">
+</div>
+
+<div class="form-group">
+  <label for="entry_price">Entry Price:</label>
+  <input type="number" id="entry_price" name="entry_price">
+</div>
+
+<div class="form-group">
+  <label for="TP">Take Profit (TP):</label>
+  <input type="number" id="TP" name="TP">
+</div>
+
+<div class="form-group">
+  <label for="SL">Stop Loss (SL):</label>
+  <input type="number" id="SL" name="SL">
+</div>
+
+<button type="button" onclick="calculateProfit()">Calculate</button>
+
+<div class="result" id="result"></div>
+
+<script>
+function calculateProfit() {
+  let positionType = document.getElementById('position_type').value;
+  let volume = parseFloat(document.getElementById('volume_usdt').value);
+  let entry = parseFloat(document.getElementById('entry_price').value);
+  let tp = parseFloat(document.getElementById('TP').value);
+  let sl = parseFloat(document.getElementById('SL').value);
+  let profitTP, profitSL;
+
+  if (positionType === "LONG") {
+    profitTP = ((tp - entry) / entry) * volume;
+    profitSL = ((sl - entry) / entry) * volume;
+  } else { // SHORT
+    profitTP = ((entry - tp) / entry) * volume;
+    profitSL = ((entry - sl) / entry) * volume;
+  }
+
+  document.getElementById('result').innerHTML = 'Profit for TP: ' + profitTP.toFixed(2) + ' USDT<br>Profit for SL: ' + profitSL.toFixed(2) + ' USDT';
+}
+</script>
+
+</body>
+</html>
